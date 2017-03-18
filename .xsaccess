@@ -3,7 +3,7 @@
                   
      "authentication" :                                            
             {
-               "method": "Form"   
+               "method": "Basic"   
             },
   
      "cache_control" : "must-revalidate", 
