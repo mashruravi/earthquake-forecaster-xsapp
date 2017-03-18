@@ -1,0 +1,11 @@
+table.schemaName = "EQ_FORECAST";
+table.tableType = COLUMNSTORE;
+
+table.columns = [
+    { name = "YEAR"; sqlType = INTEGER; nullable = false; },
+	{ name = "MONTH"; sqlType = INTEGER; nullable = false; },
+	{ name = "DAY"; sqlType = INTEGER; nullable = false; },
+	{ name = "COUNT"; sqlType = INTEGER; nullable = false; }
+];
+
+table.primaryKey.pkcolumns = ["YEAR", "MONTH", "DAY"];
