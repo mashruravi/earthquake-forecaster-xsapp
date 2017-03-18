@@ -1,3 +1,18 @@
+# Local Development
+
+Prerequisite: You need to have Node installed (v6.x.x recommended)
+
+Install the dependencies required by running
+```
+$ npm install
+```
+
+Start the local server by running
+```
+$ npm start
+```
+
+
 # Services
 
 ## get-daily-count

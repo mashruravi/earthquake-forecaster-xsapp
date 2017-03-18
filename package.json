@@ -1,0 +1,23 @@
+{
+  "name": "earthquake-forecaster-xsapp",
+  "version": "0.0.1",
+  "description": "## get-daily-count Get the count of earthquakes by day.",
+  "main": "localserver.js",
+  "dependencies": {
+    "express": "^4.15.2",
+    "http-proxy": "^1.16.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node localserver.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mashruravi/earthquake-forecaster-xsapp.git"
+  },
+  "author": "Ravi Suresh Mashru",
+  "bugs": {
+    "url": "https://github.com/mashruravi/earthquake-forecaster-xsapp/issues"
+  },
+  "homepage": "https://github.com/mashruravi/earthquake-forecaster-xsapp"
+}
