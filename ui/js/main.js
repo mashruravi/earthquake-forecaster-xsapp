@@ -11,13 +11,20 @@ function drawGraph(data) {
         top: 50,
         right: 10,
         bottom: 50,
-        left: 50
+        left: 70
     };
 
     let svgWidth = 800 - margins.left - margins.right,
         svgHeight = 600 - margins.top - margins.bottom;
 
-    let chart = d3.select("#chartArea")
+    let chartSelector = "#chartArea";
+
+    // div to show the tooltip
+    let div = d3.select(chartSelector).append('div')
+                .attr('class', 'tooltip')
+                .style('opacity', 0);
+
+    let chart = d3.select(chartSelector)
         .append('svg')
             .attr('width', svgWidth + margins.left + margins.right)
             .attr('height', svgHeight + margins.top + margins.bottom)
@@ -52,7 +59,20 @@ function drawGraph(data) {
             .enter().append('circle')
             .attr('r', 3.5)
             .attr('cx', d => xScale(d.YEAR))
-            .attr('cy', d => yScale(d.COUNT));
+            .attr('cy', d => yScale(d.COUNT))
+            .on('mouseover', d => {
+                div.transition()
+                    .duration(200)
+                    .style('opacity', 0.9);
+                div.html('Year: ' + d.YEAR + '<br/>' + 'Count: ' + d3.format(',')(d.COUNT))
+                    .style('left', (d3.event.pageX) + 'px')
+                    .style('top', (d3.event.pageY + 20) + 'px');
+            })
+            .on('mouseout', d=> {
+                div.transition()
+                    .duration(200)
+                    .style('opacity', 0);
+            });
 
     chart.append('g')
             .attr('class', 'x axis')
