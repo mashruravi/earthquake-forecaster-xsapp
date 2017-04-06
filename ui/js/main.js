@@ -46,6 +46,14 @@ function drawGraph(data) {
             .attr('class', 'line')
             .attr('d', line(data));
 
+    // Add circles at all data points in the line graph
+    chart.selectAll('dot')
+            .data(data)
+            .enter().append('circle')
+            .attr('r', 3.5)
+            .attr('cx', d => xScale(d.YEAR))
+            .attr('cy', d => yScale(d.COUNT));
+
     chart.append('g')
             .attr('class', 'x axis')
             .attr('transform', 'translate(0, ' + svgHeight + ')')
