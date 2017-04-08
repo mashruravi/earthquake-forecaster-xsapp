@@ -11,6 +11,9 @@
   "scripts": {
     "start": "node localserver.js"
   },
+  "engines": {
+  	"node": "6.9.x"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/mashruravi/earthquake-forecaster-xsapp.git"

@@ -15,6 +15,6 @@ app.route("/earthquake-forecaster*").all((req, res) => {
 });
 
 let portNumber = '8000';
-app.listen(portNumber, () => {
+app.listen(process.env.PORT || portNumber, () => {
     console.log("Server started on port " + portNumber);
 })
