@@ -14,6 +14,8 @@ function drawGraph(data, xVar, yVar) {
         left: 70
     };
 
+    // Set this as the width of the div that contains the svg as well
+    // Required to centre align the graph on the page
     let svgWidth = 800 - margins.left - margins.right,
         svgHeight = 600 - margins.top - margins.bottom;
 
@@ -82,9 +84,33 @@ function drawGraph(data, xVar, yVar) {
             .tickFormat(d3.format('d'))
         );
 
+    // Text for the x-axis
+    chart.append('text')
+        .attr('transform', 'translate(' + svgWidth / 2 + ', ' + (svgHeight + margins.top) + ')')
+        .style('text-anchor', 'middle')
+        .text('Year');
+
     chart.append('g')
         .attr('class', 'y axis')
         .call(d3.axisLeft(yScale));
+
+    // Text for the y-axis
+    chart.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', 0 - margins.left)
+        .attr('x', 0 - (svgHeight / 2))
+        .attr('dy', '1em')
+        .style('text-anchor', 'middle')
+        .text('No. of Earthquakes');
+
+    // Chart title
+    chart.append('text')
+        .attr('x', (svgWidth / 2))
+        .attr('y', 0 - (margins.top / 2))
+        .attr('text-anchor', 'middle')
+        .style('font-size', '20px')
+        .style('text-decoration', 'underline')
+        .text('Number of Earthquakes over the years');
 }
 
 // Get the data

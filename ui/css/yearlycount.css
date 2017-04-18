@@ -16,3 +16,8 @@
     border-radius: 8px;			
     pointer-events: none;	
 }
+
+#chartArea {
+    width: 860px;
+    padding-top: 20px;
+}
