@@ -4,8 +4,12 @@ function drawGraph(data, xVar, yVar) {
     let minYear = data[0][xVar.dataName];
     let maxYear = data[data.length - 1][xVar.dataName];
 
-    let minCount = data[0][yVar.dataName];
-    let maxCount = data[data.length - 1][yVar.dataName];
+    let minCount = d3.min(data, function(d) {
+        return d[yVar.dataName];
+    }); 
+    let maxCount = d3.max(data, function(d) {
+        return d[yVar.dataName];
+    }); 
 
     let margins = {
         top: 50,
