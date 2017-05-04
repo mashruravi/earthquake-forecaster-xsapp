@@ -5,6 +5,8 @@
 	<meta charset="UTF-8">
 	<title>Earthquakes - World Heatmap</title>
 
+  <script src="lib/jquery-3.2.1.min.js"></script>
+
 	<style>
 		/* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -70,10 +72,6 @@
         });
       }
 
-      function toggleHeatmap() {
-        heatmap.setMap(heatmap.getMap() ? null : map);
-      }
-
       function changeGradient() {
         var gradient = [
           'rgba(0, 255, 255, 0)',
@@ -104,7 +102,20 @@
 
       // Heatmap data: 500 Points
       function getPoints() {
-        return [];
+
+        var aData = [];
+        
+        jQuery.ajax({
+          url: "/earthquake-forecaster/data/services/get-all-details.xsjs",
+          async: false
+        }).done(function(data){
+          aData = JSON.parse(data).map(function(e){
+            return new google.maps.LatLng(e.lat, e.lng);
+          });
+        });
+
+        return aData;
+
       }
     </script>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlIfky2LC06OKgpnnQnZOlbTOrCsOwgTQ&libraries=visualization&callback=initMap">
