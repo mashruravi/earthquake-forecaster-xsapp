@@ -116,7 +116,11 @@
           async: false
         }).done(function(data){
           aData = JSON.parse(data).map(function(e){
-            return new google.maps.LatLng(e.lat, e.lng);
+            return {
+              location: new google.maps.LatLng(e.lat, e.lng),
+              weight: parseFloat(e.mag)/10
+            };
+            // return new google.maps.LatLng(e.lat, e.lng);
           });
         });
 
