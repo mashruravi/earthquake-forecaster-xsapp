@@ -5,7 +5,8 @@
 	<meta charset="UTF-8">
 	<title>Earthquakes - World Heatmap</title>
 
-  <script src="lib/jquery-3.2.1.min.js"></script>
+	<script src="lib/d3.v4.min.js"></script>
+	<script src="lib/jquery-3.2.1.min.js"></script>
 
 	<style>
 		/* Always set the map height explicitly to define the size of the div
@@ -66,10 +67,15 @@
           center: {lat: 0, lng: 0}
         });
 
+        
         heatmap = new google.maps.visualization.HeatmapLayer({
           data: getPoints(),
           map: map
         });
+        
+
+        loadPlateBoundaries();
+
       }
 
       function changeGradient() {
@@ -115,6 +121,35 @@
         });
 
         return aData;
+
+      }
+
+      function loadPlateBoundaries() {
+
+        d3.json("plateboundaries.json", function(err, data) {
+
+          if(err)
+            return console.error(err);
+
+          data.features.map(function(feature) {
+            return feature.geometry.coordinates;
+          }).map(function(coords){
+            return coords.map(function(c){
+              return { lat: c[1], lng: c[0] };
+            });
+          }).map(function(ncoords){
+            return new google.maps.Polyline({
+              path: ncoords,
+              geodesic: true,
+              strokeColor: '#333',
+              strokeOpacity: 1,
+              strokeWeight: 1
+            });
+          }).map(function(lineseg){
+            lineseg.setMap(map);
+          });
+
+        });
 
       }
     </script>
