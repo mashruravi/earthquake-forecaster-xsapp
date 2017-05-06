@@ -1,6 +1,18 @@
+let nelat = $.request.parameters.get("nelat");
+let nelng = $.request.parameters.get("nelng");
+let swlat = $.request.parameters.get("swlat");
+let swlng = $.request.parameters.get("swlng");
+
 let conn = $.hdb.getConnection();
 
-let sql = "SELECT TOP 100000 \"LONG\", \"LAT\", \"MAGNITUDE\" FROM \"EQ_FORECAST\".\"DETAILS\" ORDER BY \"MAGNITUDE\" DESC";
+let sql = "SELECT TOP 100000 \"LONG\", \"LAT\", \"MAGNITUDE\" FROM \"EQ_FORECAST\".\"DETAILS\"";
+
+if (nelat && nelng && swlat && swlng) {
+    sql += (" WHERE \"LAT\" > '" + swlat + "' AND \"LAT\" < '" + nelat +
+            "' AND \"LONG\" > '" + swlng + "' AND \"LONG\" < '" + nelng + "'"); 
+}
+
+sql += "ORDER BY \"MAGNITUDE\" DESC";
 
 let res = conn.executeQuery(sql);
 
