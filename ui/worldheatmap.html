@@ -8,6 +8,8 @@
   <script src="lib/d3.v4.min.js"></script>
   <script src="lib/jquery-3.2.1.min.js"></script>
 
+  <link rel="stylesheet" href="css/spin.css">
+
   <style>
     /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -40,20 +42,54 @@
     #floating-panel>button {
       height: 35px;
     }
+
+    #loading {
+      height: 100%;
+      width: 100%;
+      z-index: 10;
+      display: none;
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
   </style>
 </head>
 
 <body>
+
+  <div id="loading">
+    <div class="sk-folding-cube">
+      <div class="sk-cube1 sk-cube"></div>
+      <div class="sk-cube2 sk-cube"></div>
+      <div class="sk-cube4 sk-cube"></div>
+      <div class="sk-cube3 sk-cube"></div>
+    </div>
+  </div>
+
 
   <div id="floating-panel">
     <button onclick="refreshData()">Show Refined Data</button>
   </div>
   <div id="map"></div>
   <script>
+    $(document).ajaxStop(function () {
+      $("#loading").hide();
+    });
+    $(document).ajaxStart(function () {
+      $("#loading").show();
+    });
+
     var map, heatmap;
 
     function refreshData() {
-      heatmap.setData(getPoints());
+
+      if (!heatmap) {
+        heatmap = new google.maps.visualization.HeatmapLayer({
+          map: map
+        });
+      }
+
+      getPoints();
+
     }
 
     function initMap() {
@@ -64,10 +100,7 @@
 
       loadPlateBoundaries();
 
-      heatmap = new google.maps.visualization.HeatmapLayer({
-        data: getPoints(),
-        map: map
-      });
+      refreshData();
 
     }
 
@@ -102,7 +135,7 @@
     // Heatmap data: 500 Points
     function getPoints() {
 
-      var aData = [];
+      // var aData = [];
 
       var queryString = "";
       if (map.getBounds()) {
@@ -115,19 +148,19 @@
       }
 
       jQuery.ajax({
-        url: "/earthquake-forecaster/data/services/get-all-details.xsjs" + queryString,
-        async: false
+        url: "/earthquake-forecaster/data/services/get-all-details.xsjs" + queryString
       }).done(function (data) {
-        aData = JSON.parse(data).map(function (e) {
+        let aData = JSON.parse(data).map(function (e) {
           return {
             location: new google.maps.LatLng(e.lat, e.lng),
             weight: parseFloat(e.mag) / 10
           };
           // return new google.maps.LatLng(e.lat, e.lng);
         });
+        heatmap.setData(aData);
       });
 
-      return aData;
+      // return aData;
 
     }
 
